@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 
 const { MONGO_URI, PORT } = process.env;
 
+mongoose.set('strictQuery', false);
+
 mongoose
   .connect(MONGO_URI)
   .then(() => {
