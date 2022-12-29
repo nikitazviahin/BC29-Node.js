@@ -139,12 +139,11 @@ router.patch(
         newName
       );
 
-      await fs.rename(tempDir, uploadDir);
+      const image = await Jimp.read(tempDir);
+      const resizedImage =  image.resize(250, 250);
+      resizedImage.write(tempDir)
 
-      Jimp.read(uploadDir, (err, image) => {
-        if (err) throw err;
-        image.resize(250, 250).write(uploadDir);
-      });
+      await fs.rename(tempDir, uploadDir);
 
       const avatarURL = path.join("avatars", newName);
       await User.findByIdAndUpdate(_id, { avatarURL });
